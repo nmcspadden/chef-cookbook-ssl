@@ -3,9 +3,9 @@ require 'digest/sha2'
 action :create do
 
   if node["platform"] == "mac_os_x"
-  		root_group = wheel
+  		root_group = "wheel"
   else
-  		root_group = root
+  		root_group = "root"
   end
   cert_dir = ::File.expand_path(::File.dirname(new_resource.certificate))
   directory cert_dir do
