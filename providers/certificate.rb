@@ -8,8 +8,8 @@ action :create do
   		root_group = root
   end
   cert_dir = ::File.expand_path(::File.dirname(new_resource.certificate))
-  %w[ /etc/ /etc/ssl ].each do |path|
-  	directory path do
+  directory cert_dir do
+  		recursive true
     	owner root
     	owner root_group
 		mode "0755"
