@@ -1,5 +1,9 @@
 Changelog for the 'x509' cookbook, and the 'chef-ssl-client' gem.
 
+Version 1.1.1
+
+ * Added "OS X " branch that uses group 'wheel' instead of group 'root' (Nick McSpadden)
+
 Version 1.1.0
 
  * Switch to secure rubygems source to avoid deprecation warning from
