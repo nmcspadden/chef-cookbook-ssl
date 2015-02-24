@@ -13,7 +13,11 @@ attribute :bits, :kind_of => Fixnum, :default => 2048, :equal_to => [1024, 2048,
 attribute :days, :kind_of => Fixnum, :default => (365 * 5)
 
 attribute :owner, :kind_of => String, :default => 'root'
-attribute :group, :kind_of => String, :default => 'wheel'
+if node["platform"] == "mac_os_x"
+	attribute :group, :kind_of => String, :default => 'wheel'
+else
+	attribute :group, :kind_of => String, :default => 'root'
+end
 
 attribute :cacertificate, :kind_of => String
 attribute :certificate,   :kind_of => String, :required => true
