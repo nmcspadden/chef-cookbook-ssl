@@ -13,7 +13,6 @@ action :create do
     	owner root
     	owner root_group
 		mode "0755"
-	end
   end
   file new_resource.certificate do
     owner new_resource.owner
