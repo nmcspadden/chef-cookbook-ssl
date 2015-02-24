@@ -2,6 +2,19 @@ require 'digest/sha2'
 
 action :create do
 
+  if node["platform"] == "mac_os_x"
+  		root_group = wheel
+  else
+  		root_group = root
+  end
+  cert_dir = File.dirname(new_resource.certificate)
+  %w[ /etc/ /etc/ssl ].each do |path|
+  	directory path do
+    	owner root
+    	owner root_group
+		mode "0755"
+	end
+  end
   file new_resource.certificate do
     owner new_resource.owner
     group new_resource.group
