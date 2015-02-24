@@ -7,7 +7,7 @@ action :create do
   else
   		root_group = root
   end
-  cert_dir = File.dirname(new_resource.certificate)
+  cert_dir = ::File.expand_path(::File.dirname(new_resource.certificate))
   %w[ /etc/ /etc/ssl ].each do |path|
   	directory path do
     	owner root
