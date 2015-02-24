@@ -10,7 +10,7 @@ action :create do
   cert_dir = ::File.expand_path(::File.dirname(new_resource.certificate))
   directory cert_dir do
   		recursive true
-    	owner root
+    	owner "root"
     	owner root_group
 		mode "0755"
   end
