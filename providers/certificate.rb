@@ -92,7 +92,7 @@ action :create do
         end
         
         # Delete the CSR file
-        f = resource(csr_path)
+        f = resource("file[#{csr_path}]")
         f.action :delete
       else
         Chef::Log.warn("not installing certificate #{new_resource.name} (id #{cert_id}), does not match key")
