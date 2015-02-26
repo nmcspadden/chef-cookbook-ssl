@@ -14,6 +14,15 @@ action :create do
     	owner root_group
 		mode "0755"
   end
+  
+  # here's an experiment - have a separate CSR file
+  file new_resource.csr do
+  	owner new_resource.owner
+  	group new_resource.group
+  	mode "0644"
+  	action :nothing
+  end
+  
   file new_resource.certificate do
     owner new_resource.owner
     group new_resource.group
@@ -135,7 +144,8 @@ action :create do
           :department => node['x509']['department'],
           :organization => node['x509']['organization']
         )
-        cert, ca = x509_issue_self_signed_cert(
+/*	No longer issue a self-signed temp cert
+          cert, ca = x509_issue_self_signed_cert(
           csr,
           new_resource.type,
           :city => node['x509']['city'],
@@ -145,6 +155,7 @@ action :create do
           :department => node['x509']['department'],
           :organization => node['x509']['organization']
         )
+*/
       end
 
       node.set['csr_outbox'][new_resource.name] = {
@@ -162,10 +173,10 @@ action :create do
       f.content key.private_key.to_s
       f.action :create
 
-      # write out the cert if we created a temporary one
-      unless cert.nil?
-        f = resource("file[#{new_resource.certificate}]")
-        f.content cert.to_pem
+      # write out the csr to disk
+      unless csr.nil?
+        f = resource("file[#{new_resource.csr}]")
+        f.content csr
         f.action :create
       end
 
