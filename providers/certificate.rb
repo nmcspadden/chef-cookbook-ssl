@@ -137,8 +137,7 @@ action :create do
           encrypted_key = nil
         end
 
-        # Generate the CSR, and sign it with a scratch CA to create a
-        # temporary certificate.
+        # Generate the CSR
         csr = x509_generate_csr(key,
           :common_name => new_resource.cn || new_resource.name,
           :city => node['x509']['city'],
@@ -148,9 +147,10 @@ action :create do
           :department => node['x509']['department'],
           :organization => node['x509']['organization']
         )
-=begin
-No longer issue a self-signed temp cert
-          cert, ca = x509_issue_self_signed_cert(
+
+# No longer issue a self-signed temp cert
+ #         cert, ca = x509_issue_self_signed_cert(
+          ca = x509_issue_self_signed_cert(
           csr,
           new_resource.type,
           :city => node['x509']['city'],
@@ -160,7 +160,7 @@ No longer issue a self-signed temp cert
           :department => node['x509']['department'],
           :organization => node['x509']['organization']
         )
-=end
+
       end
 
       node.set['csr_outbox'][new_resource.name] = {
@@ -181,7 +181,7 @@ No longer issue a self-signed temp cert
       # write out the csr to disk
       unless csr.nil?
         f = resource("file[#{csr_path}]")
-        f.content csr.to_pem
+        f.content csr
         f.action :create
       end
 
