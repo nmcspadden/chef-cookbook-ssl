@@ -22,5 +22,6 @@ end
 attribute :cacertificate, :kind_of => String
 attribute :certificate,   :kind_of => String, :required => true
 attribute :key,           :kind_of => String, :required => true
+attribute :csr,           :kind_of => String
 
 attribute :joincachain,   :equal_to => [true, false], :default => false
