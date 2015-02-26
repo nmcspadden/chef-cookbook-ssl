@@ -17,7 +17,7 @@ action :create do
   
   csr_name = ::File.basename(new_resource.certificate, ".*")
   
-  csr_path = cert_dir + csr_name + ".csr"
+  csr_path = ::File.join(cert_dir, csr_name + ".csr")
   
   puts "CSR_PATH: #{csr_path}"
   
