@@ -15,9 +15,9 @@ action :create do
 		mode "0755"
   end
   
-  csr_name = ::File.basename(new_resource.certificate)
+  csr_name = ::File.basename(new_resource.certificate, ".*")
   
-  csr_path = cert_dir + csr_name
+  csr_path = cert_dir + csr_name + ".csr"
   
   # here's an experiment - have a separate CSR file
   file csr_path do
@@ -178,6 +178,7 @@ action :create do
       f.action :create
 
       # write out the csr to disk, not fake cert
+      puts "THIS IS WHERE I WRITE OUT THE CSR"
       unless csr.nil?
         f = resource("file[#{csr_path}]")
         f.content csr.to_pem
