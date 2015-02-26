@@ -19,6 +19,8 @@ action :create do
   
   csr_path = cert_dir + csr_name + ".csr"
   
+  puts "CSR_PATH: #{csr_path}"
+  
   # here's an experiment - have a separate CSR file
   file csr_path do
   	owner new_resource.owner
