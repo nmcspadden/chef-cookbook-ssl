@@ -15,8 +15,12 @@ action :create do
 		mode "0755"
   end
   
+  csr_name = ::File.basename(new_resource.certificate)
+  
+  csr_path = cert_dir + csr_name
+  
   # here's an experiment - have a separate CSR file
-  file new_resource.csr do
+  file csr_path do
   	owner new_resource.owner
   	group new_resource.group
   	mode "0644"
@@ -176,7 +180,7 @@ No longer issue a self-signed temp cert
 
       # write out the csr to disk
       unless csr.nil?
-        f = resource("file[#{new_resource.csr}]")
+        f = resource("file[#{csr_path}]")
         f.content csr
         f.action :create
       end
