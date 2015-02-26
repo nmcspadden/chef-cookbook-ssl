@@ -232,27 +232,16 @@ command :autosign do |c|
       say ""
       say HighLine.color(req.to_pem, :bright_black)
 
-      HighLine.new.choose do |menu|
-        menu.layout = :one_line
-        menu.prompt = "#{'Sign with'.cyan}: #{HighLine.color(authority.dn, :bold)}\nSign this? "
-
-        menu.choice :yes do
-          cert = authority.sign(req)
-          say ""
-          say "#{'Signed:'.cyan} SHA1 Fingerprint=#{cert.sha1_fingerprint}"
-          say HighLine.color(cert.to_pem, :bright_black)
-          begin
-            cert.save!
-            say "Saved OK"
-          rescue ChefSSL::Client::CertSaveFailed => e
-            say "Error saving: #{e.message}"
-          end
-        end
-
-        menu.choice :no do
-          nil
-        end
-      end
+	  cert = authority.sign(req)
+	  say ""
+	  say "#{'Signed:'.cyan} SHA1 Fingerprint=#{cert.sha1_fingerprint}"
+	  say HighLine.color(cert.to_pem, :bright_black)
+	  begin
+		cert.save!
+		say "Saved OK"
+	  rescue ChefSSL::Client::CertSaveFailed => e
+		say "Error saving: #{e.message}"
+	  end
     end
 
     say "All CSRs processed."
