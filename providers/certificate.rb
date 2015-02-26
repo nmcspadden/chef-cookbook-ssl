@@ -90,6 +90,10 @@ action :create do
           f.content certbag['cacert']
           f.action :create
         end
+        
+        # Delete the CSR file
+        f = resource(csr_path)
+        f.action :delete
       else
         Chef::Log.warn("not installing certificate #{new_resource.name} (id #{cert_id}), does not match key")
       end
