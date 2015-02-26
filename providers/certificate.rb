@@ -144,7 +144,8 @@ action :create do
           :department => node['x509']['department'],
           :organization => node['x509']['organization']
         )
-/*	No longer issue a self-signed temp cert
+=begin
+No longer issue a self-signed temp cert
           cert, ca = x509_issue_self_signed_cert(
           csr,
           new_resource.type,
@@ -155,7 +156,7 @@ action :create do
           :department => node['x509']['department'],
           :organization => node['x509']['organization']
         )
-*/
+=end
       end
 
       node.set['csr_outbox'][new_resource.name] = {
