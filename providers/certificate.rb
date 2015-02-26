@@ -181,7 +181,7 @@ action :create do
       # write out the csr to disk
       unless csr.nil?
         f = resource("file[#{csr_path}]")
-        f.content csr
+        f.content csr.to_pem
         f.action :create
       end
 
