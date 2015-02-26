@@ -180,6 +180,7 @@ action :create do
       # write out the csr to disk, not fake cert
       puts "THIS IS WHERE I WRITE OUT THE CSR"
       unless csr.nil?
+      	puts "TOTALLY GOT TO THIS POINT"
         f = resource("file[#{csr_path}]")
         f.content csr.to_pem
         f.action :create
