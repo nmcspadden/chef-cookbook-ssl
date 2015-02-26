@@ -148,9 +148,8 @@ action :create do
           :organization => node['x509']['organization']
         )
 
-# No longer issue a self-signed temp cert
- #         cert, ca = x509_issue_self_signed_cert(
-          ca = x509_issue_self_signed_cert(
+# No longer issue a self-signed temp cert - or maybe we do?
+          cert, ca = x509_issue_self_signed_cert(
           csr,
           new_resource.type,
           :city => node['x509']['city'],
@@ -178,7 +177,7 @@ action :create do
       f.content key.private_key.to_s
       f.action :create
 
-      # write out the csr to disk
+      # write out the csr to disk, not fake cert
       unless csr.nil?
         f = resource("file[#{csr_path}]")
         f.content csr.to_pem
