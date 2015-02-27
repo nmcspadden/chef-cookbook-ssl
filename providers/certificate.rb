@@ -155,6 +155,7 @@ action :create do
         )
 
 # No longer issue a self-signed temp cert - or maybe we do?
+=begin
           cert, ca = x509_issue_self_signed_cert(
           csr,
           new_resource.type,
@@ -165,7 +166,7 @@ action :create do
           :department => node['x509']['department'],
           :organization => node['x509']['organization']
         )
-
+=end
       end
 
       node.set['csr_outbox'][new_resource.name] = {
@@ -191,13 +192,14 @@ action :create do
         f.content csr.to_pem
         f.action :create
       end
-
+# Don't write out a temporary cacert
+=begin
       if new_resource.cacertificate && !ca.nil?
         f = resource("file[#{new_resource.cacertificate}]")
         f.content ca.certificate.to_pem
         f.action :create
       end
-
+=end
       new_resource.updated_by_last_action(true)
     end
   end
