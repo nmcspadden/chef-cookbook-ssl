@@ -132,6 +132,7 @@ command :sign do |c|
             "chef-ssl --name www.venda.com"
 
   c.option "--name=STRING", String, "common name of the CSR to search for"
+  c.option "-y", "--yes", "Do not prompt for confirmation."
 
   c.action do |args, options|
 
@@ -153,6 +154,12 @@ command :sign do |c|
 
       cert = nil
 
+	if options.yes
+		cert_text = ask("Paste cert text") do |q|
+			q.gather = ""
+		end
+		cert = req.issue_certificate(cert_text.join("\n"))
+	else
       HighLine.new.choose do |menu|
         menu.layout = :one_line
         menu.prompt = "Sign this? "
@@ -167,6 +174,7 @@ command :sign do |c|
           nil
         end
       end
+	end
 
       if cert
         say "#{' Signed:'.cyan} SHA1 Fingerprint=#{cert.sha1_fingerprint}"
@@ -178,22 +186,31 @@ command :sign do |c|
           say "#{'WARNING:'.red.bold} #{'Issued certificate DN does not match request DN!'.bold}"
         end
 
-        HighLine.new.choose do |menu|
-          menu.layout = :one_line
-          menu.prompt = "Save certificate? "
+		if options.yes
+			begin
+			  cert.save!
+			  say "Saved OK"
+			rescue ChefSSL::Client::CertSaveFailed => e
+			  say "Error saving: #{e.message}"
+			end
+		else
+			HighLine.new.choose do |menu|
+			  menu.layout = :one_line
+			  menu.prompt = "Save certificate? "
 
-          menu.choice :yes do
-            begin
-              cert.save!
-              say "Saved OK"
-            rescue ChefSSL::Client::CertSaveFailed => e
-              say "Error saving: #{e.message}"
-            end
-          end
-          menu.choice :no do
-            nil
-          end
-        end
+			  menu.choice :yes do
+				begin
+				  cert.save!
+				  say "Saved OK"
+				rescue ChefSSL::Client::CertSaveFailed => e
+				  say "Error saving: #{e.message}"
+				end
+			  end
+			  menu.choice :no do
+				nil
+			  end
+			end
+		end
       end
     end
   end
