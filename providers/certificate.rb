@@ -16,12 +16,9 @@ action :create do
   end
   
   csr_name = ::File.basename(new_resource.certificate, ".*")
-  
   csr_path = ::File.join(cert_dir, csr_name + ".csr")
   
-  puts "CSR_PATH: #{csr_path}"
-  
-  # here's an experiment - have a separate CSR file
+  # We're going to write out the CSR to the same location as the certificate
   file csr_path do
   	owner new_resource.owner
   	group new_resource.group
@@ -185,9 +182,7 @@ action :create do
       f.action :create
 
       # write out the csr to disk, not fake cert
-      puts "THIS IS WHERE I WRITE OUT THE CSR"
       unless csr.nil?
-      	puts "TOTALLY GOT TO THIS POINT"
         f = resource("file[#{csr_path}]")
         f.content csr.to_pem
         f.action :create
