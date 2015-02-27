@@ -132,7 +132,7 @@ command :sign do |c|
             "chef-ssl --name www.venda.com"
 
   c.option "--name=STRING", String, "common name of the CSR to search for"
-  c.option "-y", "--yes", "Do not prompt for confirmation."
+  c.option '--yes', 'Do not prompt for confirmation'
 
   c.action do |args, options|
 
