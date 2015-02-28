@@ -47,8 +47,8 @@ action :create do
     end
   end
 
-  name_sha_combined = new_resource.name + node["fqdn"]
-  name_sha = Digest::SHA256.new << new_sha_combined
+  name_sha_combined = new_resource.name + node['fqdn']
+  name_sha = Digest::SHA256.new << name_sha_combined
   cert_id = name_sha.to_s
 
   # Try to find this certificate in the data bag.
