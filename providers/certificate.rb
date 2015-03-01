@@ -50,7 +50,6 @@ action :create do
 	new_name = new_resource.name
 	node_hostname = node['hostname']
 	puts "***new_resource.name: #{new_name}***"
-	puts "***node[fqdn]: #{node_fqdn}***"
 	puts "***node[hostname]: #{node_hostname}***"	
   name_sha_combined = new_resource.name + node['hostname']
   puts "***name_combined: #{name_sha_combined}"
