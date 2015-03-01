@@ -48,13 +48,14 @@ action :create do
   end
 
 	new_name = new_resource.name
-	node_fqdn = node['fqdn']
 	node_hostname = node['hostname']
 	puts "***new_resource.name: #{new_name}***"
 	puts "***node[fqdn]: #{node_fqdn}***"
 	puts "***node[hostname]: #{node_hostname}***"	
-  name_sha_combined = new_resource.name + node['fqdn']
+  name_sha_combined = new_resource.name + node['hostname']
+  puts "***name_combined: #{name_sha_combined}"
   name_sha = Digest::SHA256.new << name_sha_combined
+  puts "***name_sha: #{name_sha}"
   cert_id = name_sha.to_s
 
   # Try to find this certificate in the data bag.
