@@ -47,8 +47,12 @@ action :create do
     end
   end
 
-	puts "***new_resource.name: ${new_resource.name}***"
-	puts "***node[fqdn]: #{node['fqdn']}***"
+	new_name = new_resource.name
+	node_fqdn = node['fqdn']
+	node_hostname = node['hostname']
+	puts "***new_resource.name: #{nnew_name}***"
+	puts "***node[fqdn]: #{node_fqdn}***"
+	puts "***node[hostname]: #{node_hostname}***"	
   name_sha_combined = new_resource.name + node['fqdn']
   name_sha = Digest::SHA256.new << name_sha_combined
   cert_id = name_sha.to_s
