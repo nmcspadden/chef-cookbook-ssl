@@ -51,9 +51,7 @@ action :create do
   cert_id = name_sha.to_s
 
   # Try to find this certificate in the data bag.
-  puts "***SEARCHING FOR CERT #{cert_id}***"
   certbag = search(:certificates, "id:#{cert_id}").first
-  puts "***CERTBAG RESULTS: #{certbag}***"
   if certbag
     # Data bag item found - the CSR was processed, and can be removed
     # from the outbox
