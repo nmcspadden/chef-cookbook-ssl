@@ -16,6 +16,18 @@ the CSRs are waiting to be processed.
 Generated keys are encrypted to a key-vault key, and pushed to Chef
 for backup.
 
+This is a fork of the original [x509 cookbook by Venda](https://github.com/VendaTech/chef-cookbook-ssl).
+
+Changes From Original
+=======
+
+* Now applies on OS X using owner "root" and group "wheel" (previously tried to use group "root" which does not exist on OS X).
+* Now keeps a local copy of the CSR in the "certificate" resource path directory until the CSR is signed.  The .csr file is deleted upon installation of the signed certificate.
+* No longer signs a temporary/transient CA certificate and client certificate while waiting for CSR to be signed.
+* This version of the "chef-ssl" gem deviates from the original [chef-ssl gem](https://rubygems.org/gems/chef-ssl-client).  
+	* Specifically, when using `chef-ssl autosign`, you are no longer asked to approve each cert - it will automatically approve all outstanding CSRs from a given CA.  Use `chef-ssl sign` to approve individual certs.
+* Two recipes are provided as an example for use with [Munki client certificates](https://github.com/munki/munki/wiki/Using%20Munki%20With%20SSL%20Client%20Certificates): "munki2_server.rb" and "munki2_client.rb".  The "server" version should be run on the Munki server, the "client" version should be run on any Munki client.  See this blog post for details.
+
 Requirements
 ============
 
@@ -195,12 +207,12 @@ TODO
 ====
 
 
-
 Licence and Author
 ==================
 
 Author:: Chris Andrews (<candrews@venda.com>)
 Author:: Zac Stevens (<zts@cryptocracy.com>)
+Author:: Nick McSpadden (<nmcspadden@gmail.com>)
 
 Copyright 2011-2012 Venda Ltd
 
