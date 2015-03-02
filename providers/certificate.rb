@@ -49,7 +49,6 @@ action :create do
 
   name_sha = Digest::SHA256.new << new_resource.name + node['hostname']
   cert_id = name_sha.to_s
-  puts "***CERT_ID: #{cert_id}***"
 
   # Try to find this certificate in the data bag.
   certbag = search(:certificates, "id:#{cert_id}").first
