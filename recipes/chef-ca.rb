@@ -1,8 +1,8 @@
 include_recipe "x509::default"
 
 x509_certificate "munki2.sacredsf.org" do
-	certificate "/etc/ssl/munki2.sacredsf.org.cert"
-	cacertificate "/etc/ssl/munki2_ca.cert"
+	certificate "/etc/ssl/munki2.sacredsf.org.crt"
+	cacertificate "/etc/ssl/munki2_ca.crt"
 	key "/etc/ssl/munki2.sacredsf.org.key" 
 	ca "ChefCA" 
 	type "server" 
