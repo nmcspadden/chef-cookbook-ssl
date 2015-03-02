@@ -3,16 +3,16 @@ require 'digest/sha2'
 action :create do
 
   if node["platform"] == "mac_os_x"
-  		root_group = "wheel"
+        root_group = "wheel"
   else
-  		root_group = "root"
+        root_group = "root"
   end
   cert_dir = ::File.expand_path(::File.dirname(new_resource.certificate))
   directory cert_dir do
-  		recursive true
-    	owner "root"
-    	owner root_group
-		mode "0755"
+        recursive true
+        owner "root"
+        owner root_group
+        mode "0755"
   end
   
   csr_name = ::File.basename(new_resource.certificate, ".*")
@@ -20,10 +20,10 @@ action :create do
   
   # We're going to write out the CSR to the same location as the certificate
   file csr_path do
-  	owner new_resource.owner
-  	group new_resource.group
-  	mode "0644"
-  	action :nothing
+    owner new_resource.owner
+    group new_resource.group
+    mode "0644"
+    action :nothing
   end
   
   file new_resource.certificate do
@@ -150,20 +150,6 @@ action :create do
           :department => node['x509']['department'],
           :organization => node['x509']['organization']
         )
-
-# No longer issue a self-signed temp cert - or maybe we do?
-=begin
-          cert, ca = x509_issue_self_signed_cert(
-          csr,
-          new_resource.type,
-          :city => node['x509']['city'],
-          :state => node['x509']['state'],
-          :email => node['x509']['email'],
-          :country => node['x509']['country'],
-          :department => node['x509']['department'],
-          :organization => node['x509']['organization']
-        )
-=end
       end
 
       node.set['csr_outbox'][new_resource.name] = {
@@ -187,14 +173,6 @@ action :create do
         f.content csr.to_pem
         f.action :create
       end
-# Don't write out a temporary cacert
-=begin
-      if new_resource.cacertificate && !ca.nil?
-        f = resource("file[#{new_resource.cacertificate}]")
-        f.content ca.certificate.to_pem
-        f.action :create
-      end
-=end
       new_resource.updated_by_last_action(true)
     end
   end
